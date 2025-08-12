@@ -1,0 +1,5 @@
+// export const apiBaseUrl = "https://nodejs-20250120.vercel.app"
+export const apiBaseUrl = "http://localhost:5000"
+export const appName= "Quick Cart"
+export const websiteUrl= "http://localhost:3000"
+export const returnUrl= "http://localhost:3000/product"
