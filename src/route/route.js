@@ -13,3 +13,4 @@ export const USER_MANAGEMENT= "/user-management";
 export const ORDER_MANAGEMENT= "/order-management";
 export const DASHBOARD= "/dashboard";
 export const SHIPPING_ADDRESS= "/cart/shipping-address";
+export const USER_PROFILE= "/profile";

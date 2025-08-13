@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     User,
@@ -26,15 +26,60 @@ import {
     CheckCircle,
     AlertCircle
 } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
+import { getUserById, uploadProfile } from '@/api/user';
+import { updatedUser } from '@/redux/auth/authSlice';
+import toast from 'react-hot-toast';
+import Spinner from '@/components/Spinner';
+import EditProfile from '@/components/profile/EditProfile';
 
 const UserProfilePage = () => {
     const { user } = useSelector((state) => state.auth);
     const [activeTab, setActiveTab] = useState('profile');
     const [isEditing, setIsEditing] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
-    console.log(user);
+    const [previewImage, setPreviewImage] = useState(null);
+    const [file, getFile] = useState(null);
+    const formData = new FormData();
+    const dispatch = useDispatch();
+
+    const fileInputRef = useRef(null);
+
+    const handleFileSelect = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileChange = async (event) => {
+        const file = (event.target.files[0]);
+        if (file) {
+
+            getFile(file)
+            setPreviewImage(URL.createObjectURL(file));
+
+            // You can now upload or preview the file
+        }
+    };
+    async function editProfile() {
+        try {
+            setLoading(true)
+            formData.append("image", file);
+            await uploadProfile(formData);
+            const newUser = await getUserById(user?.id);
+            dispatch(updatedUser(newUser));
+            toast.success("Profile Image Upoaded successfull", {
+                autoClose: 1500
+            })
+        } catch (error) {
+            console.log(error?.response?.data)
+        }finally{
+            setLoading(false);
+        }
+    }
+//   ---order----
+
+
     // Mock data - replace with actual user data
     const userData = {
         name: user?.name || 'John Doe',
@@ -53,7 +98,7 @@ const UserProfilePage = () => {
         { id: 'profile', label: 'Profile', icon: User },
         { id: 'orders', label: 'Orders', icon: Package },
         { id: 'wishlist', label: 'Wishlist', icon: Heart },
-        { id: 'reviews', label: 'Reviews', icon: Star },
+        { id: 'EditProfile', label: 'Edit Profile', icon: Star },
         { id: 'settings', label: 'Settings', icon: Settings },
     ];
 
@@ -73,52 +118,71 @@ const UserProfilePage = () => {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 }
     };
-
     const renderProfileTab = () => (
         <motion.div variants={itemVariants} className="space-y-6">
             {/* Profile Header */}
             <div className="relative">
                 <div className="h-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl overflow-hidden">
                     <div className="absolute inset-0 bg-black/20"></div>
-                    <div className="absolute bottom-4 left-6">
+                    <div className="absolute bottom-20 left-6">
                         <div className="relative">
-                            <div className="group w-24 h-24 rounded-full bg-white p-1 shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-xl">
-                                <div className="w-full h-full rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center transition-colors duration-300 group-hover:from-indigo-200 group-hover:to-purple-200">
-                                    {user?.profileImageUrl ? (
+                            <div className="group w-24 h-24 rounded-full bg-white p-1 shadow-lg  hover:shadow-xl">
+                                <div className="w-full h-full rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center  transition-colors group-hover:from-indigo-200 group-hover:to-purple-200">
+                                    {previewImage || user?.profileImageUrl ? (
                                         <Image
-                                            src={user?.profileImageUrl}
+                                            src={previewImage || user.profileImageUrl}
                                             height={100}
                                             width={100}
                                             alt="user profile"
                                             className="rounded-full object-cover"
                                         />
                                     ) : (
-                                        <User className="w-12 h-12 text-indigo-600 transition-transform duration-300 group-hover:scale-110" />
+                                        <User className="w-12 h-12 text-indigo-600 " />
                                     )}
+
                                 </div>
+                                <button
+                                    onClick={editProfile}
+                                    disabled={loading}
+                                    className="bg-slate-700 absolute disabled:cursor-not-allowed   disabled:bg-slate-400 -right-36  bottom-6 text-sm cursor-pointer hover:bg-slate-800 text-white w-[130px] justify-center py-3 px-3 rounded-xl font-Nunito-SemiBold transition-all duration-200 hover:shadow-lg flex items-center gap-2"
+                                >
+                                  
+                                   
+                                    Edit profile
+                                    {
+                                        loading ? <Spinner/> :  <Edit3 className="w-4 h-4" />
+                                    }
+                                   
+                                </button>
                             </div>
 
-                            <button className="absolute -bottom-1 -right-1 bg-white p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110">
+                            {/* Camera button */}
+                            <button
+                                onClick={handleFileSelect}
+                                className="absolute -bottom-1 -right-1 bg-white p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110"
+                            >
                                 <Camera className="w-4 h-4 text-gray-600" />
-                               
                             </button>
+
+                            {/* Hidden file input */}
+                            <input
+                                type="file"
+                                accept="image/*"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                                className="hidden"
+                            />
                         </div>
                     </div>
                 </div>
 
                 <div className="mt-16 ml-6">
                     <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-3xl font-Poppins-Bold text-gray-900">{userData.name}</h1>
+                        <div className=''>
+                            <h1 className="text-2xl font-Nunito-Bold capitalize  text-gray-900">{userData?.name}</h1>
                             <p className="text-gray-600 font-Nunito">Member since {userData.joinDate}</p>
                         </div>
-                        <button
-                            onClick={() => setIsEditing(!isEditing)}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-Nunito-SemiBold transition-all duration-200 hover:shadow-lg flex items-center gap-2"
-                        >
-                            <Edit3 className="w-4 h-4" />
-                            {isEditing ? 'Save' : 'Edit Profile'}
-                        </button>
+
                     </div>
                 </div>
             </div>
@@ -156,8 +220,8 @@ const UserProfilePage = () => {
                     {[
                         { label: 'Full Name', value: userData.name, icon: User },
                         { label: 'Email Address', value: userData.email, icon: Mail },
-                        { label: 'Phone Number', value: userData.phone, icon: Phone },
-                        { label: 'Location', value: userData.location, icon: MapPin },
+                        { label: 'Phone Number', value: user?.number, icon: Phone },
+                        { label: 'Location', value: user?.address?.city, icon: MapPin },
                     ].map((field, index) => (
                         <div key={field.label} className="space-y-2">
                             <label className="text-sm font-Nunito-SemiBold text-gray-700 flex items-center gap-2">
@@ -322,7 +386,8 @@ const UserProfilePage = () => {
             case 'wishlist':
                 return renderWishlistTab();
             case 'reviews':
-                return renderReviewsTab();
+                // return renderReviewsTab();
+                return <EditProfile/>
             case 'settings':
                 return renderSettingsTab();
             default:

@@ -26,7 +26,7 @@ const ForgotPasswordPage = () => {
       <div className="relative z-10 flex items-center mt-10 justify-center min-h-[calc(100vh-80px)] p-4">
         <div className="w-full max-w-md">
           {/* Logo/Brand Section */}
-        
+  
 
           {/* Form Component */}
           <ForgotPasswordForm />

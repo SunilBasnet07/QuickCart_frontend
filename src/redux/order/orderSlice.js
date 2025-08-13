@@ -7,7 +7,7 @@ const orderSlice = createSlice({
     },
     reducers: {
         setOrderStatus: (state, action) => {
-            state.status = action.payload
+            state.status = action.payload;
         }
     }
 })

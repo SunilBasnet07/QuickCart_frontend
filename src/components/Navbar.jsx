@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { logout } from "@/redux/auth/authSlice";
 import { usePathname, useRouter } from "next/navigation";
-import { CART_ROUTE, LOGIN_ROUTE } from "@/route/route";
+import { CART_ROUTE, LOGIN_ROUTE, USER_PROFILE } from "@/route/route";
 import Link from "next/link";
 
 
@@ -158,7 +158,7 @@ const Navbar = () => {
               </div>
             </div>
 
-            <Link href="/dashboard" className=" text-black font-Nunito-Bold  py-3 dark:text-white dark:hover:bg-gray-800  hover:bg-slate-100 w-full  border-b border-t rounded-sm px-5 flex items-center gap-4 opacity-70"> <Settings className="h-5 w-5" />Manage account</Link>
+            <Link href={USER_PROFILE} className=" text-black font-Nunito-Bold  py-3 dark:text-white dark:hover:bg-gray-800  hover:bg-slate-100 w-full  border-b border-t rounded-sm px-5 flex items-center gap-4 opacity-70"> <Settings className="h-5 w-5" />Manage account</Link>
             <button onClick={handleLogout} className="text-black font-Nunito-Bold  py-3 dark:text-white dark:hover:bg-gray-800 hover:bg-slate-100 w-full  border-b border-t rounded-sm px-5 flex items-center gap-4 opacity-70"> <LogOut className="h-5 w-5" />Sign out</button>
 
           </div>

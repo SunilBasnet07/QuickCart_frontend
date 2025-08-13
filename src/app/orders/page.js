@@ -50,6 +50,7 @@ const OrdersPage = () => {
         getOrderByUser(status).then((response) => {
             setOrders(response);
             setloading(false)
+            
         }).catch((error => console.log(error?.message)))
 
     }, [status])

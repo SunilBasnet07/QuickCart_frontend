@@ -22,7 +22,7 @@ export default function LoginForm() {
     const dispatch = useDispatch()
     const router = useRouter();
     const { user, loading, error } = useSelector((state) => state.auth)
-
+console.log(error);
 
     async function submitForm(data) {
         console.log(data)
@@ -35,7 +35,7 @@ export default function LoginForm() {
             router.push(HOME_ROUTE)
         }
         if (error) {
-            toast.error(typeof error === "string" ? error : error.message || "An error occurred");
+            toast.error(typeof error === "string" ? error : error?.response?.data || "An error occurred");
         }
     }, [user, error])
 
