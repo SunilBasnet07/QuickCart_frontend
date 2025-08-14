@@ -15,12 +15,14 @@ import { setUserStatus } from '@/redux/user/userSlice';
 import Modal from '../Modal';
 import clsx from 'clsx';
 import Spinner from '../Spinner';
+import CreateUserModal from './CreateUserModal';
 
 const UserTable = ({ getUsers }) => {
 
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showUserModal, setShowUserModal] = useState(false);
     const [getId, setGetId] = useState(null);
 
     const userHeader = [
@@ -48,10 +50,10 @@ const UserTable = ({ getUsers }) => {
             setLoading(true);
             await deleteUser(getId)
             toast.success("User deleted successfull.", {
-                autoClose: 750,
+                autoClose: 1500,
             })
             dispatch(setUserStatus("deleted"))
-            setShowModal(false)
+            setShowDeleteModal(false)
         } catch (error) {
             console.log(error?.response?.data)
         } finally {
@@ -62,7 +64,7 @@ const UserTable = ({ getUsers }) => {
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div className="flex items-center py-3 justify-between flex-column flex-wrap md:flex-row space-y-6 md:space-y-0 pb-5 bg-white dark:bg-gray-900">
-              
+
 
                 <label htmlFor="table-search" className="sr-only">
                     Search
@@ -79,8 +81,8 @@ const UserTable = ({ getUsers }) => {
                         placeholder="Search for users"
                     />
                 </div>
-                <button className='px-3 py-1 flex items-center gap-1 bg-primary-500 hover:bg-primary-600 text-white font-Nunito-SemiBold rounded-md'>
-                <Plus className='h-5 w-5' /> Create User</button>
+                <button onClick={()=>setShowUserModal(true)} className='px-3 py-1 flex items-center gap-1 bg-primary-500 hover:bg-primary-600 text-white font-Nunito-SemiBold rounded-md'>
+                    <Plus className='h-5 w-5' /> Create User</button>
             </div>
 
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -142,7 +144,7 @@ const UserTable = ({ getUsers }) => {
                                     <div className="font-medium text-blue-600 dark:text-blue-500 hover:underline" >
                                         <div className="flex items-center gap-2 mr-3">
                                             <button onClick={() => {
-                                                setShowModal(true)
+                                                setShowDeleteModal(true)
                                                 setGetId(user?._id)
                                             }}>
 
@@ -164,8 +166,8 @@ const UserTable = ({ getUsers }) => {
             </table>
 
             <Modal
-                isOpen={showModal}
-                onClose={() => setShowModal(false)}
+                isOpen={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
                 onConfirm="Delete"
                 title="Delete User"
                 message="Do you wnat to delete this User?">
@@ -182,6 +184,12 @@ const UserTable = ({ getUsers }) => {
 
                 </div>
             </Modal>
+            <CreateUserModal
+                showModal={showUserModal}
+                setShowModal={setShowUserModal}
+            />
+
+
         </div>
 
     )

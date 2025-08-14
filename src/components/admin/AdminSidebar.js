@@ -4,11 +4,16 @@ import { GiPieChart } from "react-icons/gi";
 import { FaUsersCog } from "react-icons/fa";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
-import { DASHBOARD, ORDER_MANAGEMENT, PRODUCT_MANAGEMENT, USER_MANAGEMENT } from '@/route/route';
+import { DASHBOARD, LOGIN_ROUTE, ORDER_MANAGEMENT, PRODUCT_MANAGEMENT, USER_MANAGEMENT } from '@/route/route';
+import { IoIosLogOut } from "react-icons/io";
+import { useDispatch } from 'react-redux';
+import { logout } from '@/redux/auth/authSlice';
 const AdminSidebar = () => {
     const pathname = usePathname();
+    const dispatch = useDispatch();
+    const router = useRouter();
     const sideBarMenue = [
         {
             route: DASHBOARD,
@@ -32,8 +37,16 @@ const AdminSidebar = () => {
             label: "Order Management",
             icon: <HiOutlineShoppingCart className='w-5 h-5 text-gray-500' />,
 
-        }
+        },
+  
     ]
+
+    const logoutDashboard=()=>{
+      
+        dispatch(logout())
+        router.push(LOGIN_ROUTE);
+      
+    }
     return (
         <aside
             id="default-sidebar"
@@ -48,20 +61,21 @@ const AdminSidebar = () => {
                             const activeLink = pathname == menue?.route;
                             return (
                                 <li key={index}>
-                             
-                                <Link
-                                    href={menue.route}
-                                    className={clsx(
-                                        "flex items-center p-2  text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group",
-                                        { "bg-gray-200": activeLink })}
-                                >
-                                    {menue.icon}
-                                    <p className="flex-1 ms-3 font-Nunito-SemiBold text-md whitespace-nowrap">{menue.label}</p>
 
-                                </Link>
-                            </li>
+                                    <Link
+                                        href={menue?.route}
+                                        className={clsx(
+                                            "flex items-center p-2  text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group",
+                                            { "bg-gray-200": activeLink })}
+                                    >
+                                        {menue?.icon}
+                                        <p className="flex-1 ms-3 font-Nunito-SemiBold text-md whitespace-nowrap">{menue?.label}</p>
+
+                                    </Link>
+
+                                </li>
                             )
-                           
+
                         })
                     }
 
@@ -69,6 +83,16 @@ const AdminSidebar = () => {
 
 
                 </ul>
+                <button
+                   onClick={logoutDashboard}
+                    className={clsx(
+                        "flex items-center p-2  text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group",
+                    )}
+                >
+                    <IoIosLogOut className='w-5 h-5 text-gray-500' />
+                    <p className="flex-1 ms-3 font-Nunito-SemiBold text-md whitespace-nowrap">Logout</p>
+
+                </button>
             </div>
         </aside>
 

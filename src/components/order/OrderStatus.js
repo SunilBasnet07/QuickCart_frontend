@@ -25,7 +25,7 @@ const OrderStatus = ({ status,paymentMethod }) => {
     }
     if (status == DELIVERED_STATUS) {
         return (
-            <span className="bg-red-100  text-[11px] capitalize text-red-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+            <span className="bg-primary-100  text-[11px] capitalize text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
                 {status}
             </span>
         )

@@ -20,5 +20,9 @@ const deleteUser = async (id) => {
     const response = await api.delete(`/api/users/${id}`);
        return response?.data
    }
+   const createUser  = async (data) => {
+    const response = await api.post(`/api/users`,data);
+       return response?.data
+   }
 
-export {uploadProfile,getUserById,editProfile,getAllUsers,deleteUser}
+export {uploadProfile,getUserById,editProfile,getAllUsers,deleteUser,createUser}
