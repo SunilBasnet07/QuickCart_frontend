@@ -2,6 +2,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import {addToCart} from '@/redux/cart/cartSlice'
+import { MdOutlineAddShoppingCart } from "react-icons/md";
 import toast from 'react-hot-toast'
 import clsx from 'clsx'
 const AddToCart = ({product,className}) => {
@@ -26,7 +27,9 @@ const AddToCart = ({product,className}) => {
     }
   return (
     <div>
-        <button onClick={handleAddToCart} className={clsx("bg-blue-500 text-white px-4 py-2  rounded-md",className)}>Add to Cart</button>
+        <button onClick={handleAddToCart} className={clsx("bg-blue-500 flex items-center justify-center gap-2 font-Nunito-SemiBold text-white px-4 py-2  rounded-md",className)}>
+        <MdOutlineAddShoppingCart />
+          Add to Cart</button>
     </div>
   )
 }

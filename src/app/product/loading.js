@@ -7,7 +7,7 @@ const Loading = () => {
       <div className='gap-4 grid grid-cols-4 px-20'>
         {[...Array(8)].map((_, index) => (
           <div key={index} className="bg-white rounded-2xl shadow-xl overflow-hidden animate-pulse">
-            <div className="w-full h-52 bg-gray-200"></div>
+            <div className="w-full h-48 bg-gray-200"></div>
             <div className="p-4 space-y-3">
               <div className="flex gap-2">
                 <div className="h-4 bg-gray-200 rounded w-16"></div>

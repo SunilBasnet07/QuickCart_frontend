@@ -1,42 +1,23 @@
-'use client'
 import { PRODUCT_ROUTE } from '@/route/route';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
 import AddToCart from './AddToCart';
-import { PenLine, Trash2 } from 'lucide-react';
-import { deleteProduct } from '@/api/product';
-import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
-import Modal from '../Modal';
+import Image from 'next/image';
+
 
 const ProductCard = ({ product }) => {
-  const router = useRouter();
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  const handleDelete = async () => {
-    try {
-       await deleteProduct(product?._id);
-      toast.success('Product deleted successfully',{
-        auotClose:1500,
-      })
-      setTimeout(() => {
-        router.refresh(); // Refresh the current route
-      }, 1600); // Slightly more than autoClose
-    } catch (error) {
-      toast.error(error.response?.data,{
-        autoClose:1500,
-      })
-    }
-  }
+ 
   return (
     <div className="group bg-white rounded-2xl shadow-xl hover:shadow-xl transition-all duration-300 overflow-hidden">
       {/* Image Section */}
-      <div className="relative w-full h-52 overflow-hidden">
+      <div className="relative w-full h-48 overflow-hidden">
         {product?.imageUrls?.[0] ? (
-          <img
+          <Image
             src={product.imageUrls[0]}
+            height={200}
+            width={200}
             alt={product?.name || 'Product image'}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200">
@@ -62,9 +43,9 @@ const ProductCard = ({ product }) => {
         {/* Product Name */}
         <Link
           href={`${PRODUCT_ROUTE}/${product?._id}`}
-          className="block text-lg font-semibold hover:underline text-gray-900 hover:text-indigo-600 transition-colors line-clamp-1"
+          className="block text-md font-semibold truncate hover:underline text-gray-900 hover:text-indigo-600 transition-colors line-clamp-1"
         >
-          {product?.name || 'Product Name'}
+          {product?.name?.split(" ").slice(0, 4).join(" ")}
         </Link>
 
         {/* Price */}
@@ -77,35 +58,17 @@ const ProductCard = ({ product }) => {
               ${product.originalPrice.toFixed(2)}
             </span>
           )}
-          <div className="flex items-center gap-2 mr-3">
-            <button onClick={() => setShowDeleteModal(true)}>
-              <Trash2 className="w-4 h-4 hover:text-red-500 cursor-pointer" />
-            </button>
-
-            <PenLine className="w-4 h-4 hover:text-indigo-500 cursor-pointer" />
-          </div>
+          
         </div>
 
-        {/* Description */}
-        {/* <p className="text-sm text-gray-600 line-clamp-2">
-          {product?.description || 'This is a sample product description.'}
-        </p> */}
-
-        {/* Add to Cart Button */}
-        <div className=" w-full">
+       {/* Add to Cart Button */}
+        <div className=" w-full ">
           <AddToCart product={product} className="w-full" />
         </div>
       </div>
 
-      {/* Delete Modal */}
-      <Modal
-        isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-        onConfirm={handleDelete}
-        title="Delete Product"
-        message="Are you sure you want to delete this product? This action cannot be undone."
-        itemName={product?.name}
-      />
+      
+      
     </div>
   );
 };

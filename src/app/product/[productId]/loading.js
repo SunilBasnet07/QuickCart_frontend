@@ -1,9 +1,12 @@
 'use client'
+import ProductDetailsLoader from '@/components/product/ProductDetailLoading'
 import React from 'react'
 
 const loading = () => {
   return (
-    <div className='mt-32 text-lg text-center w-full '>loading...</div>
+    <div>
+      <ProductDetailsLoader/>
+    </div>
   )
 }
 

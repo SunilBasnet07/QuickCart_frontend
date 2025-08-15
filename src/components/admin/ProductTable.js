@@ -74,8 +74,8 @@ const ProductTable = ({ products }) => {
                         products.map((item, index) => (
                             <tr key={index} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
 
-                                <th scope="row" className="px-6 py-4 font-medium text-xs flex items-center gap-3 text-gray-900 whitespace-nowrap dark:text-white">
-                                    {item?.name}
+                                <th scope="row" className="px-6 py-4  font-medium text-xs flex items-center gap-3 text-gray-900 whitespace-nowrap dark:text-white">
+                                    <p  className='truncate'>{item?.name?.split(" ").slice(0, 5).join(" ")} </p>
                                     <Image src={item?.imageUrls[0] || placeHolder} alt='product image' height={30} width={30} />
                                 </th>
                                 <td className="px-6 py-4">{item?.brand}</td>
