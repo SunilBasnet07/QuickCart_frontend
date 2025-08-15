@@ -162,50 +162,7 @@ const ShippingForm = () => {
               </div>
             </div>
 
-            {/* Shipping Method */}
-            {/* <div className="space-y-6">
-              <h2 className="text-lg font-medium text-gray-900 flex items-center gap-2">
-                <Package className="h-5 w-5 text-indigo-600" />
-                Shipping Method
-              </h2>
-              <div className="space-y-4">
-                <div className="flex items-center p-4 border border-gray-200 rounded-lg hover:border-indigo-500 cursor-pointer transition-colors">
-                  <input
-                    type="radio"
-                    id="standard"
-                    name="shipping"
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
-                  />
-                  <label htmlFor="standard" className="ml-3 flex-1">
-                    <div className="flex justify-between">
-                      <div>
-                        <span className="block text-sm font-medium text-gray-900">Standard Shipping</span>
-                        <span className="block text-sm text-gray-500">3-5 business days</span>
-                      </div>
-                      <span className="text-sm font-medium text-gray-900">Free</span>
-                    </div>
-                  </label>
-                </div>
-                <div className="flex items-center p-4 border border-gray-200 rounded-lg hover:border-indigo-500 cursor-pointer transition-colors">
-                  <input
-                    type="radio"
-                    id="express"
-                    name="shipping"
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
-                  />
-                  <label htmlFor="express" className="ml-3 flex-1">
-                    <div className="flex justify-between">
-                      <div>
-                        <span className="block text-sm font-medium text-gray-900">Express Shipping</span>
-                        <span className="block text-sm text-gray-500">1-2 business days</span>
-                      </div>
-                      <span className="text-sm font-medium text-gray-900">$9.99</span>
-                    </div>
-                  </label>
-                </div>
-              </div>
-            </div> */}
-
+           
 
             {/* Submit Button */}
             <div className="pt-6 border-t border-gray-100">

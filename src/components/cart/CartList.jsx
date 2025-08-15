@@ -96,10 +96,10 @@ const CartList = () => {
                   <div className="flex-1">
                     <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
                       <div>
-                        <h3 className="text-lg font-medium text-gray-900">{item.name}</h3>
-                        <p className="text-sm text-gray-500">{item.brand}</p>
+                        <h3 className="text-lg font-medium text-gray-900">{item?.name?.split(" ").slice(0,4).join(" ")}</h3>
+                        <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-blue-900 dark:text-blue-300">{item?.brand}</span>
                         <p className="text-lg font-semibold text-indigo-600 mt-2">
-                          ${item.price.toFixed(2)}
+                          ${item?.price?.toFixed(2)}
                         </p>
                       </div>
 
@@ -144,7 +144,7 @@ const CartList = () => {
         </div>
 
         {/* Order Summary Section */}
-        <CartSummaryList selectedProducts={selectedProducts} />
+        <CartSummaryList selectedProducts={selectedProducts} className={"w-[400px]"} />
       </div>
     </div>
   );

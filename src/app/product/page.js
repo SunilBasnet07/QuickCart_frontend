@@ -31,7 +31,7 @@ const ProductPage = async () => {
        <h1 className='text-2xl py-5 ml-10 px-10 font-Nunito-ExtraBold'>Product Features</h1>
       
        </div>
-        <div className='gap-4 grid grid-cols-4 px-20'>
+        <div className='gap-5 grid grid-cols-4  px-20'>
           {products.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}

@@ -1,4 +1,4 @@
-import { ABOUT_ROUTE, CATEGORY_ROUTE, HOME_ROUTE, ORDER_ROUTE, PRODUCT_ROUTE } from "@/route/route";
+import { ABOUT_ROUTE, CATEGORY_ROUTE, CONTACT_ROUTE, HOME_ROUTE, ORDER_ROUTE, PRODUCT_ROUTE } from "@/route/route";
 
  const navlinks=[
     {
@@ -17,8 +17,8 @@ import { ABOUT_ROUTE, CATEGORY_ROUTE, HOME_ROUTE, ORDER_ROUTE, PRODUCT_ROUTE } f
         isAuth: true,
     },
     {
-        label:"About",
-        href:ABOUT_ROUTE,
+        label:"Contact",
+        href:CONTACT_ROUTE,
         isAuth:false
     },
 ]

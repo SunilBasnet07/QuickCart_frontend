@@ -24,19 +24,19 @@ export default function RegisterForm() {
         dispatch(signUp(data))
     }
 
-    // useEffect(() => {
-    //     if (user) {
-    //         toast.success("Register Successfully.", {
-    //             autoClose: 2000,
-    //         })
-    //         router.push(HOME_ROUTE)
-    //     }
-    //     if (error) {
-    //         toast.error(error, {
-    //             autoClose: 2000,
-    //         })
-    //     }
-    // }, [user, error])
+    useEffect(() => {
+        if (user) {
+            toast.success("Register Successfully.", {
+                autoClose: 2000,
+            })
+            router.push(HOME_ROUTE)
+        }
+        if (error) {
+            toast.error(error, {
+                autoClose: 2000,
+            })
+        }
+    }, [user, error])
 
 
 
@@ -161,7 +161,7 @@ export default function RegisterForm() {
                         variants={containerVariants}
                         initial="hidden"
                         animate="visible"
-                        className="w-full lg:w-1/2 max-w-md"
+                        className=" w-[550px] mt-5"
                     >
                         <div className="bg-white rounded-2xl shadow-xl p-8">
                             <motion.div variants={itemVariants} className="mb-8">
@@ -190,44 +190,51 @@ export default function RegisterForm() {
                                     </div>
                                 </motion.div>
 
-                                {/* Email input */}
-                                <motion.div variants={formItemVariants}>
-                                    <label htmlFor="email" className="block font-Nunito-SemiBold text-sm text-gray-700 mb-2">
-                                        Email Address
-                                    </label>
-                                    <div className="relative group">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
+                                <div className="flex gap-2 items-center w-full">
+                                    {/* Email input */}
+                                    <motion.div variants={formItemVariants}>
+                                        <label htmlFor="email" className="block font-Nunito-SemiBold text-sm text-gray-700 mb-2">
+                                            Email Address
+                                        </label>
+                                        <div className="relative group">
+                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
+                                            </div>
+                                            <input
+                                                id="email"
+                                                name="email"
+                                                type="email"
+                                                {...register("email")}
+                                                placeholder="name@example.com"
+                                                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                            />
                                         </div>
-                                        <input
-                                            id="email"
-                                            name="email"
-                                            type="email"
-                                            {...register("email")}
-                                            placeholder="name@example.com"
-                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                                        />
-                                    </div>
-                                </motion.div>
+                                    </motion.div>
+                                    {/* Phone input */}
+                                    <motion.div variants={formItemVariants}>
+                                        <label htmlFor="phone" className="block font-Nunito-SemiBold text-sm text-gray-700 mb-2">
+                                            Phone Number
+                                        </label>
+                                        <div className="relative group">
+                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <Phone className="h-5 w-5 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
+                                            </div>
+                                            <input
+                                                id="phone"
+                                                name="phone"
+                                                type="tel"
+                                                {...register("number")}
+                                                placeholder="+1 (555) 000-0000"
+                                                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                            />
+                                        </div>
+                                    </motion.div>
 
-                                {/* Phone input */}
-                                {/* <motion.div variants={formItemVariants}>
-                                    <label htmlFor="phone" className="block font-Nunito-SemiBold text-sm text-gray-700 mb-2">
-                                        Phone Number
-                                    </label>
-                                    <div className="relative group">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <Phone className="h-5 w-5 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
-                                        </div>
-                                        <input
-                                            id="phone"
-                                            name="phone"
-                                            type="tel"
-                                            placeholder="+1 (555) 000-0000"
-                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                                        />
-                                    </div>
-                                </motion.div> */}
+
+                                </div>
+
+
+
 
                                 {/* Password input */}
                                 <motion.div variants={formItemVariants}>
@@ -293,7 +300,7 @@ export default function RegisterForm() {
                                         id="terms"
                                         name="terms"
                                         type="checkbox"
-                                        onChange={()=>setCheckBox(!checkBox)}
+                                        onChange={() => setCheckBox(!checkBox)}
                                         className="h-4 w-4 mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                     />
                                     <label htmlFor="terms" className="ml-2 block font-Nunito text-sm text-gray-600">
@@ -319,7 +326,7 @@ export default function RegisterForm() {
                                             "w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl py-3 px-4 font-Nunito-Bold text-base flex items-center justify-center space-x-2 transition-all",
                                             "hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
                                             {
-                                                "opacity-50 cursor-not-allowed": loading||checkBox,
+                                                "opacity-50 cursor-not-allowed": loading || checkBox,
                                             }
                                         )}
                                     >

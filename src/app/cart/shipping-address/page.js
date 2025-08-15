@@ -12,7 +12,7 @@ const ShippingAddressPage = () => {
       
         {/* Cart Summary - 1/3 width */}
         <div className="bg-gray-50 shadow-lg rounded-2xl p-6 lg:mt-0 mt-10">
-          <CartSummaryList />
+          <CartSummaryList className={"w-[400px]"} />
         </div>
       </div>
       

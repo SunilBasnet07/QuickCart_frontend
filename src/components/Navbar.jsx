@@ -1,6 +1,6 @@
 'use client';
 import { motion } from "framer-motion"
-
+import appLogo from "@/image/appLogo.png"
 import { useState } from 'react';
 import {
   Search,
@@ -24,8 +24,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { logout } from "@/redux/auth/authSlice";
 import { usePathname, useRouter } from "next/navigation";
-import { CART_ROUTE, LOGIN_ROUTE, USER_PROFILE } from "@/route/route";
+import { CART_ROUTE, DASHBOARD, HOME_ROUTE, LOGIN_ROUTE, USER_PROFILE } from "@/route/route";
 import Link from "next/link";
+import { MdDashboard, MdFavoriteBorder } from "react-icons/md";
 
 
 const Navbar = () => {
@@ -33,15 +34,15 @@ const Navbar = () => {
   const [showProfile, setShowProfile] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const {products}= useSelector((state)=>state.cart);
+  const { products } = useSelector((state) => state.cart);
   const pathname = usePathname();
-  const isActive = navlinks.some((navlink) => navlink.href === pathname);
- const router = useRouter();
+  const router = useRouter();
   const isAuth = user;
+  const isAdminUser = user?.roles?.includes("ADMIN") || false;
+  
   function handleLogout() {
     dispatch(logout());
     router.push(LOGIN_ROUTE)
-
   }
 
   return (
@@ -55,49 +56,38 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
           <div className="flex-shrink-0 flex items-center">
-            <div className="flex items-center space-x-2">
-              <div className="bg-indigo-600 p-1.5 rounded-lg">
-                <Package className="h-6 w-6 text-white" />
+            <Link href={HOME_ROUTE} className="flex items-center space-x-2">
+              <div className=" rounded-lg">
+                {/* <Package className="h-6 w-6 text-white" /> */}
+                <Image src={appLogo} height={40} width={40} alt="app logo"/>
               </div>
               <span className="text-2xl font-Poppins-Bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                 QuickCart
               </span>
-            </div>
+            </Link>
           </div>
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-1">
-
-            {/* <a href="#" className="group flex items-center px-3 py-2 text-sm font-Nunito-SemiBold text-gray-700 hover:text-indigo-600 transition-colors">
-              <Store className="h-4 w-4 mr-1.5 text-gray-500 group-hover:text-indigo-600" />
-              Shop
-              <ChevronDown className="h-4 w-4 ml-1 text-gray-500 group-hover:text-indigo-600" />
-            </a>
-            <a href="#" className="group flex items-center px-3 py-2 text-sm font-Nunito-SemiBold text-gray-700 hover:text-indigo-600 transition-colors">
-              <Tag className="h-4 w-4 mr-1.5 text-gray-500 group-hover:text-indigo-600" />
-              Deals
-            </a>
-            <Link href="/product" className="group flex items-center px-3 py-2 text-sm font-Nunito-SemiBold text-gray-700 hover:text-indigo-600 transition-colors">
-              <Sparkles className="h-4 w-4 mr-1.5 text-gray-500 group-hover:text-indigo-600" />
-              New Arrivals
-            </Link> */}
-            {
-              navlinks.map((navlink, index) =>
-
-                isAuth || !navlink.isAuth ? (
-                  <Link href={navlink.href} key={index} className={`${isActive ? "text-indigo-600" : "text-gray-500"} ${navlink.isAuth && !isAuth && "hidden"} group flex items-center px-3 py-2 text-sm font-Nunito-SemiBold  hover:text-indigo-600 transition-colors`}>
-                    <Sparkles className="h-4 w-4 mr-1.5  group-hover:text-indigo-600" />
-                    {navlink?.label}
-                  </Link>
-                ) : null
-
-              )
-              
-            }
+            {navlinks.map((navlink, index) =>
+              isAuth || !navlink.isAuth ? (
+                <Link 
+                  href={navlink.href} 
+                  key={index} 
+                  className={`${
+                    pathname === navlink.href 
+                      ? "text-indigo-600 border-b-2 border-indigo-600" 
+                      : "text-gray-500 hover:text-indigo-600"
+                  } ${navlink.isAuth && !isAuth && "hidden"} group gap-5 flex items-center px-3 py-2 text-md font-Nunito-SemiBold transition-colors`}
+                >
+                  {navlink?.label}
+                </Link>
+              ) : null
+            )}
           </div>
 
           {/* Search Bar */}
-          <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
+          {/* <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
             <div className="relative w-full group">
               <input
                 type="text"
@@ -106,10 +96,14 @@ const Navbar = () => {
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-hover:text-indigo-600 transition-colors" />
             </div>
-          </div>
+          </div> */}
 
           {/* Desktop Right Icons */}
           <div className="hidden md:flex items-center space-x-6">
+          <Link href={CART_ROUTE} className="group flex flex-col items-center text-gray-700 hover:text-indigo-600 transition-colors relative">
+              <MdFavoriteBorder className="h-6 w-6 group-hover:scale-110 transition-transform" />
+        
+            </Link>
 
             <Link href={CART_ROUTE} className="group flex flex-col items-center text-gray-700 hover:text-indigo-600 transition-colors relative">
               <ShoppingCart className="h-6 w-6 group-hover:scale-110 transition-transform" />
@@ -131,7 +125,9 @@ const Navbar = () => {
                     className="object-cover w-full h-full"
                   />
                 ) : (
-                  <User className="w-6 h-6 text-gray-500" />
+                  <div className="px-2 py-2 border border-gray-400 rounded-full">
+                    <User className="w-6 h-6 text-gray-500" />
+                  </div>
                 )}
               </div>
 
@@ -139,36 +135,82 @@ const Navbar = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full max-w-sm bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl py-1 px-3 font-semibold text-base flex items-center justify-center gap-2 shadow-md hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:ring-offset-2 transition-all duration-200"
+              className="text-white bg-gradient-to-br font-Nunito-Bold from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-2 text-center me-2 mb-2"
             >
               <Link href={LOGIN_ROUTE} className="tracking-wide">login</Link>
             </motion.button>)}
 
-
           </div>
           {/* popup profile */}
-          <div onClick={() => setShowProfile(false)} className={`${showProfile ? "absolute dark:bg-gray-900 border -bottom-44 right-3 flex flex-col   min-w-[300px] h-auto  rounded-md bg-white" : "hidden"}`}>
-            <div className="flex px-2 py-3 gap-2 ">
-              {
-                user?.profileImageUrl ? <Image src={user.profileImageUrl} alt="profileImge" height={45} width={45} className="rounded-full" /> : <UserRound className="dark:text-white " />
-              }
-              <div className="ml-3">
-                <p className="font-Nunito-Bold w-full ">Hi! {user?.name}</p>
-                <p className="font-Nunito-Bold w-full ">{user?.email}</p>
+
+          <div
+            onClick={() => setShowProfile(false)}
+            className={`${showProfile
+                ? "absolute right-0 top-24 z-50 flex flex-col min-w-[280px] max-w-[320px] rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg overflow-hidden"
+                : "hidden"
+              }`}
+          >
+            {/* User Info */}
+            <div className="flex items-center px-4 py-3 gap-3 bg-gray-50 dark:bg-gray-800">
+              {user?.profileImageUrl ? (
+                <Image
+                  src={user?.profileImageUrl}
+                  alt="profileImage"
+                  height={45}
+                  width={45}
+                  className="rounded-full object-cover"
+                />
+              ) : (
+                <div className="px-2 py-2 border border-gray-400 rounded-full">
+                <User className="w-6 h-6 text-gray-500" />
+              </div>
+              )}
+              <div>
+                <p className="font-Nunito-Bold text-sm leading-tight">
+                  Hi! {user?.name}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[180px]">
+                  {user?.email}
+                </p>
               </div>
             </div>
 
-            <Link href={USER_PROFILE} className=" text-black font-Nunito-Bold  py-3 dark:text-white dark:hover:bg-gray-800  hover:bg-slate-100 w-full  border-b border-t rounded-sm px-5 flex items-center gap-4 opacity-70"> <Settings className="h-5 w-5" />Manage account</Link>
-            <button onClick={handleLogout} className="text-black font-Nunito-Bold  py-3 dark:text-white dark:hover:bg-gray-800 hover:bg-slate-100 w-full  border-b border-t rounded-sm px-5 flex items-center gap-4 opacity-70"> <LogOut className="h-5 w-5" />Sign out</button>
+            {/* Links */}
+            <Link
+              href={USER_PROFILE}
+              className="flex items-center gap-3 px-5 py-3 text-sm font-Nunito-Bold text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            >
+              <Settings className="h-5 w-5" />
+              Manage account
+            </Link>
 
+            {isAdminUser && (
+              <Link
+                href={DASHBOARD}
+                className="flex items-center gap-3 px-5 py-3 text-sm font-Nunito-Bold text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              >
+                <MdDashboard className="h-5 w-5" />
+                Dashboard
+              </Link>
+            )}
+
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-3 px-5 py-3 text-sm font-Nunito-Bold text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            >
+              <LogOut className="h-5 w-5" />
+              Sign out
+            </button>
           </div>
+
+          {/* </div> */}
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-4">
             <Link href={CART_ROUTE} className="text-gray-700 hover:text-indigo-600 transition-colors relative">
               <ShoppingCart className="h-6 w-6" />
               <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-Nunito-SemiBold">
-              {products?.length || 0}
+                {products?.length || 0}
               </span>
             </Link>
             <button

@@ -41,7 +41,7 @@ const OrderCard = ({ order }) => {
 
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <h3 className="text-lg font-Nunito-ExtraBold text-gray-900 mb-1">{item?.product?.name}</h3>
+                                    <h3 className="text-lg font-Nunito-ExtraBold text-gray-900 mb-1">{item?.product?.name.split(" ").slice(0,4).join(" ")}</h3>
                                     <p className="text-sm text-gray-600 font-Nunito mb-2">Brand: {item?.product?.brand}</p>
                                     <div className="flex items-center space-x-4  text-sm text-gray-500">
                                         <span> Rs. {item?.product?.price} x {item?.quantity}</span>
