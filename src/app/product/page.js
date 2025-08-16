@@ -1,16 +1,20 @@
 
 import { getAllProducts } from '@/api/product'
+import FilterButton from '@/components/product/filters/FilterButton';
 import ProductCard from '@/components/product/ProductCard'
 
-export const metadata ={
-  title:{
+
+export const metadata = {
+  title: {
     default: "products"
   }
 }
 
-const ProductPage = async () => {
+const ProductPage = async ({searchParams}) => {
+
+
   try {
-    const products = await getAllProducts();
+    const products = await getAllProducts(searchParams);
 
 
     // Ensure products is an array and has items
@@ -27,15 +31,16 @@ const ProductPage = async () => {
 
     return (
       <section className='mt-24 pb-10'>
-       <div className='flex  w-full justify-between  items-center py-5'>
-       <h1 className='text-2xl py-5 ml-10 px-10 font-Nunito-ExtraBold'>Product Features</h1>
-      
-       </div>
+        <div className='flex   w-full justify-between  items-center py-5 px-10'>
+          <h1 className='text-2xl py-5  px-10 font-Nunito-ExtraBold'>Product Features</h1>
+         <FilterButton products={products}/>
+        </div>
         <div className='gap-5 grid grid-cols-4  px-20'>
           {products.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>
+
       </section>
     );
   } catch (error) {

@@ -12,6 +12,8 @@ import toast from "react-hot-toast"
 import Spinner from "./Spinner"
 import clsx from "clsx"
 import Link from "next/link"
+import Image from "next/image"
+import appLogo from "@/image/appLogo.png"
 
 
 
@@ -22,7 +24,7 @@ export default function LoginForm() {
     const dispatch = useDispatch()
     const router = useRouter();
     const { user, loading, error } = useSelector((state) => state.auth)
-console.log(error);
+    console.log(error);
 
     async function submitForm(data) {
         console.log(data)
@@ -101,8 +103,9 @@ console.log(error);
                                 transition={{ delay: 0.2, duration: 0.5 }}
                                 className="flex items-center justify-center lg:justify-start mb-6"
                             >
-                                <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-2 rounded-xl">
-                                    <Package className="h-8 w-8 text-white" />
+                                <div className=" rounded-lg">
+                                    {/* <Package className="h-6 w-6 text-white" /> */}
+                                    <Image src={appLogo} height={40} width={40} alt="app logo" />
                                 </div>
                                 <span className="ml-3 text-3xl font-Poppins-Bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                                     QuickCart

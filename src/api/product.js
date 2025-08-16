@@ -4,9 +4,12 @@ import { apiBaseUrl } from "@/config/apiUrl";
 import axios from "axios";
 import api from "./api";
 
-const getAllProducts = async () => {
+const getAllProducts = async (searchParams) => {
+const limit = searchParams?.limit;
+const sort = searchParams?.sort;
+
   try {
-    const response = await axios.get(`${apiBaseUrl}/api/products`);
+    const response = await axios.get(`${apiBaseUrl}/api/products?limit=${limit}&sort=${sort}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching products:', error);

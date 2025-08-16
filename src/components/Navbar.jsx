@@ -36,13 +36,14 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.cart);
   const pathname = usePathname();
+  const isActive = navlinks.some((navlink) => navlink.href === pathname);
   const router = useRouter();
   const isAuth = user;
   const isAdminUser = user?.roles?.includes("ADMIN") || false;
-  
   function handleLogout() {
     dispatch(logout());
     router.push(LOGIN_ROUTE)
+
   }
 
   return (
@@ -69,21 +70,25 @@ const Navbar = () => {
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-1">
-            {navlinks.map((navlink, index) =>
-              isAuth || !navlink.isAuth ? (
-                <Link 
-                  href={navlink.href} 
-                  key={index} 
-                  className={`${
-                    pathname === navlink.href 
-                      ? "text-indigo-600 border-b-2 border-indigo-600" 
-                      : "text-gray-500 hover:text-indigo-600"
-                  } ${navlink.isAuth && !isAuth && "hidden"} group gap-5 flex items-center px-3 py-2 text-md font-Nunito-SemiBold transition-colors`}
-                >
-                  {navlink?.label}
-                </Link>
-              ) : null
-            )}
+            {
+              navlinks.map((navlink, index) =>
+                isAuth || !navlink.isAuth ? (
+                  <Link 
+                    href={navlink.href} 
+                    key={index} 
+                    className={`${
+                      pathname === navlink.href 
+                        ? "text-indigo-600 bg-indigo-50 border-b-2 border-indigo-600" 
+                        : "text-gray-500 hover:text-indigo-600"
+                    } ${
+                      navlink.isAuth && !isAuth && "hidden"
+                    } group flex items-center px-3 py-2 text-md font-Nunito-SemiBold transition-all duration-200 rounded-md`}
+                  >
+                    {navlink?.label}
+                  </Link>
+                ) : null
+              )
+            }
           </div>
 
           {/* Search Bar */}
@@ -100,12 +105,25 @@ const Navbar = () => {
 
           {/* Desktop Right Icons */}
           <div className="hidden md:flex items-center space-x-6">
-          <Link href={CART_ROUTE} className="group flex flex-col items-center text-gray-700 hover:text-indigo-600 transition-colors relative">
+            <Link 
+              href="/favorites" 
+              className={`group flex flex-col items-center transition-colors relative ${
+                pathname === "/favorites" 
+                  ? "text-indigo-600" 
+                  : "text-gray-700 hover:text-indigo-600"
+              }`}
+            >
               <MdFavoriteBorder className="h-6 w-6 group-hover:scale-110 transition-transform" />
-        
             </Link>
 
-            <Link href={CART_ROUTE} className="group flex flex-col items-center text-gray-700 hover:text-indigo-600 transition-colors relative">
+            <Link 
+              href={CART_ROUTE} 
+              className={`group flex flex-col items-center transition-colors relative ${
+                pathname === CART_ROUTE 
+                  ? "text-indigo-600" 
+                  : "text-gray-700 hover:text-indigo-600"
+              }`}
+            >
               <ShoppingCart className="h-6 w-6 group-hover:scale-110 transition-transform" />
               {/* <span className="text-xs font-Nunito mt-0.5">Cart</span> */}
               <span className="absolute -top-3 -right-1 bg-indigo-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-Nunito-SemiBold">
@@ -207,7 +225,14 @@ const Navbar = () => {
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-4">
-            <Link href={CART_ROUTE} className="text-gray-700 hover:text-indigo-600 transition-colors relative">
+            <Link 
+              href={CART_ROUTE} 
+              className={`transition-colors relative ${
+                pathname === CART_ROUTE 
+                  ? "text-indigo-600" 
+                  : "text-gray-700 hover:text-indigo-600"
+              }`}
+            >
               <ShoppingCart className="h-6 w-6" />
               <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-Nunito-SemiBold">
                 {products?.length || 0}
@@ -241,34 +266,91 @@ const Navbar = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-2 px-3 mb-4">
-              <a href="#" className="flex items-center p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
-                <Store className="h-5 w-5 mr-2 text-indigo-600" />
+              <Link 
+                href="/product"
+                className={`flex items-center p-3 rounded-lg transition-colors ${
+                  pathname === "/product" 
+                    ? "bg-indigo-100 text-indigo-700" 
+                    : "bg-gray-50 hover:bg-gray-100"
+                }`}
+              >
+                <Store className={`h-5 w-5 mr-2 ${
+                  pathname === "/product" ? "text-indigo-700" : "text-indigo-600"
+                }`} />
                 <span className="font-Nunito-SemiBold text-sm">Shop</span>
-              </a>
-              <a href="#" className="flex items-center p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
-                <Tag className="h-5 w-5 mr-2 text-indigo-600" />
-                <span className="font-Nunito-SemiBold text-sm">Deals</span>
-              </a>
-              <a href="#" className="flex items-center p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
-                <Sparkles className="h-5 w-5 mr-2 text-indigo-600" />
-                <span className="font-Nunito-SemiBold text-sm">New Arrivals</span>
-              </a>
-              <a href="#" className="flex items-center p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
-                <Heart className="h-5 w-5 mr-2 text-indigo-600" />
-                <span className="font-Nunito-SemiBold text-sm">Wishlist</span>
-              </a>
+              </Link>
+              <Link 
+                href="/category"
+                className={`flex items-center p-3 rounded-lg transition-colors ${
+                  pathname === "/category" 
+                    ? "bg-indigo-100 text-indigo-700" 
+                    : "bg-gray-50 hover:bg-gray-100"
+                }`}
+              >
+                <Tag className={`h-5 w-5 mr-2 ${
+                  pathname === "/category" ? "text-indigo-700" : "text-indigo-600"
+                }`} />
+                <span className="font-Nunito-SemiBold text-sm">Categories</span>
+              </Link>
+              <Link 
+                href="/about"
+                className={`flex items-center p-3 rounded-lg transition-colors ${
+                  pathname === "/about" 
+                    ? "bg-indigo-100 text-indigo-700" 
+                    : "bg-gray-50 hover:bg-gray-100"
+                }`}
+              >
+                <Sparkles className={`h-5 w-5 mr-2 ${
+                  pathname === "/about" ? "text-indigo-700" : "text-indigo-600"
+                }`} />
+                <span className="font-Nunito-SemiBold text-sm">About</span>
+              </Link>
+              <Link 
+                href="/contact"
+                className={`flex items-center p-3 rounded-lg transition-colors ${
+                  pathname === "/contact" 
+                    ? "bg-indigo-100 text-indigo-700" 
+                    : "bg-gray-50 hover:bg-gray-100"
+                }`}
+              >
+                <Heart className={`h-5 w-5 mr-2 ${
+                  pathname === "/contact" ? "text-indigo-700" : "text-indigo-600"
+                }`} />
+                <span className="font-Nunito-SemiBold text-sm">Contact</span>
+              </Link>
             </div>
 
             <div className="border-t border-gray-100 pt-4">
-              <a href="#" className="block px-3 py-2 text-base font-Nunito-SemiBold text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-md">
+              <Link 
+                href={USER_PROFILE}
+                className={`block px-3 py-2 text-base font-Nunito-SemiBold rounded-md transition-colors ${
+                  pathname === USER_PROFILE 
+                    ? "text-indigo-600 bg-indigo-50" 
+                    : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+                }`}
+              >
                 My Account
-              </a>
-              <a href="#" className="block px-3 py-2 text-base font-Nunito-SemiBold text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-md">
+              </Link>
+              <Link 
+                href="/orders"
+                className={`block px-3 py-2 text-base font-Nunito-SemiBold rounded-md transition-colors ${
+                  pathname === "/orders" 
+                    ? "text-indigo-600 bg-indigo-50" 
+                    : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+                }`}
+              >
                 Orders
-              </a>
-              <a href="#" className="block px-3 py-2 text-base font-Nunito-SemiBold text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-md">
+              </Link>
+              <Link 
+                href="/contact"
+                className={`block px-3 py-2 text-base font-Nunito-SemiBold rounded-md transition-colors ${
+                  pathname === "/contact" 
+                    ? "text-indigo-600 bg-indigo-50" 
+                    : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+                }`}
+              >
                 Help Center
-              </a>
+              </Link>
             </div>
           </div>
         </div>

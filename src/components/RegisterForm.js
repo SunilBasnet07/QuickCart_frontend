@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Spinner from "./Spinner";
 import clsx from "clsx";
+import appLogo from "@/image/appLogo.png"
+import Image from "next/image";
 
 export default function RegisterForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -100,8 +102,9 @@ export default function RegisterForm() {
                                 transition={{ delay: 0.2, duration: 0.5 }}
                                 className="flex items-center justify-center lg:justify-start mb-6"
                             >
-                                <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-2 rounded-xl">
-                                    <Package className="h-8 w-8 text-white" />
+                                 <div className=" rounded-lg">
+                                    {/* <Package className="h-6 w-6 text-white" /> */}
+                                    <Image src={appLogo} height={40} width={40} alt="app logo" />
                                 </div>
                                 <span className="ml-3 text-3xl font-Poppins-Bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                                     QuickCart
