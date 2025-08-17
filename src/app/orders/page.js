@@ -87,10 +87,8 @@ const OrdersPage = () => {
                     })}
                 </ul>
             </div>
-            {orders.length==0 && <p className='text-red-500 italic font-Nunito text-sm text-center py-2'>Empty order items</p>}
-            {
-               
-                loading ? (<OrdersLoading />) : (
+            {orders.length==0 ? <p className='text-red-500 italic font-Nunito text-sm text-center py-2'>Empty order items</p> : (
+                  loading ? (<OrdersLoading />) : (
                     <div className=' px-20 py-5 flex flex-col gap-5'>
                        
                         {orders?.map((order, index) => (
@@ -98,8 +96,12 @@ const OrdersPage = () => {
                             <OrderCard key={index} order={order} />
                         ))}
                     </div>
-                )
-            }
+                )  
+            )}
+            
+               
+            
+            
 
         </section>
     );
