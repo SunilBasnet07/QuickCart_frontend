@@ -50,7 +50,7 @@ const OrdersPage = () => {
         getOrderByUser(status).then((response) => {
             setOrders(response);
             setloading(false)
-            
+
         }).catch((error => console.log(error?.message)))
 
     }, [status])
@@ -69,7 +69,7 @@ const OrdersPage = () => {
             <div className="border-b border-gray-200 px-20  dark:border-gray-700">
                 <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                     {tabLinks.map((link, index) => {
-                        const isActive =  status === link.route ;
+                        const isActive = status === link.route;
                         return (
                             <li className="me-2" key={index}>
                                 <Link
@@ -87,21 +87,35 @@ const OrdersPage = () => {
                     })}
                 </ul>
             </div>
-            {orders.length==0 ? <p className='text-red-500 italic font-Nunito text-sm text-center py-2'>Empty order items</p> : (
-                  loading ? (<OrdersLoading />) : (
+            {/* {orders.length == 0 ? <p className='text-red-500 italic font-Nunito text-sm text-center py-2'>Empty order items</p> : (
+                loading ? (<OrdersLoading />) : (
                     <div className=' px-20 py-5 flex flex-col gap-5'>
-                       
+
                         {orders?.map((order, index) => (
-                           
+
                             <OrderCard key={index} order={order} />
                         ))}
                     </div>
-                )  
-            )}
-            
-               
-            
-            
+                )
+            )} */}
+            {
+                loading ? (
+                    <OrdersLoading />
+                ) : (
+                    <div className="px-20 py-5 flex flex-col gap-5">
+                        {orders.length === 0 ? (
+                            <p className="text-red-500 italic font-Nunito text-sm text-center py-2">
+                                Empty order items
+                            </p>
+                        ) : (
+                            orders?.map((order, index) => (
+                                <OrderCard key={index} order={order} />
+                            ))
+                        )}
+                    </div>
+                )
+            }
+
 
         </section>
     );
