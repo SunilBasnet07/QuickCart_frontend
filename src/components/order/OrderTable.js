@@ -77,7 +77,7 @@ const OrderTable = ({ orders }) => {
                                     <div className="flex flex-col gap-1">
                                         {item?.orderItem.map((order) => (
                                             <span key={order?.product?._id}>
-                                                {order?.product?.name} x {order?.quantity}
+                                                {order?.product?.name.split(" ").slice(0,4).join(" ")} x {order?.quantity}
                                             </span>
                                         ))}
                                     </div>
