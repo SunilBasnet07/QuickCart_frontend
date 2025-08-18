@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaPinterest, FaHeart, FaRocket, FaStar, FaGift, FaShieldAlt, FaTruck, FaCreditCard, FaHeadset, FaArrowUp, FaPlay, FaMapPin, FaPhone, FaEnvelope, FaClock } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaPinterest, FaHeart, FaRocket, FaStar, FaGift, FaShieldAlt, FaTruck, FaCreditCard, FaHeadset, FaArrowUp,  FaMapPin, FaPhone, FaEnvelope, FaClock } from 'react-icons/fa';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
