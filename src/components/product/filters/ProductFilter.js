@@ -68,8 +68,8 @@ const ProductFilter = ({ isOpen, setIsOpen }) => {
                             <select onChange={(e) => setLimitValue(e?.target?.value)}
                                 defaultValue={searchParams.get('limit') || 10}
                                 className="px-4 py-2 bg-slate-100 w-full border">
-                                <option value={JSON.parse(2)}>2</option>
-                                <option value={JSON.parse(4)}>4</option>
+                                <option value={JSON.parse(10)}>10</option>
+                                <option value={JSON.parse(20)}>20</option>
                                 <option value={JSON.parse(50)}>50</option>
                                 <option value={JSON.parse(100)}>100</option>
                             </select>

@@ -11,12 +11,12 @@ const ProductCard = ({ product }) => {
   const [isHovered, setIsHovered] = useState(null);
   return (
 
-    <div>
+   
 
 
       <div
 
-        className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group"
+        className="bg-white rounded-xl shadow-lg border hover:shadow-lg transition-all duration-300 overflow-hidden group"
         onMouseEnter={() => setIsHovered(product?._id)}
         onMouseLeave={() => setIsHovered(null)}
       >
@@ -85,7 +85,6 @@ const ProductCard = ({ product }) => {
         </div>
       </div>
 
-    </div>
   );
 };
 

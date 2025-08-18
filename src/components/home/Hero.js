@@ -35,7 +35,7 @@ const HeroSection = () => {
 						</p>
 
 						{/* Search */}
-						<div className="mt-8 rounded-2xl bg-white shadow-lg ring-1 ring-gray-200 p-2 flex items-center gap-2">
+						{/* <div className="mt-8 rounded-2xl bg-white shadow-lg ring-1 ring-gray-200 p-2 flex items-center gap-2">
 							<FaSearch className="text-gray-400 ml-2" />
 							<input
 								type="text"
@@ -45,7 +45,7 @@ const HeroSection = () => {
 							<button className="px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-Nunito-SemiBold hover:from-blue-700 hover:to-purple-700 transition-transform duration-200 hover:scale-[1.02]">
 								Search
 							</button>
-						</div>
+						</div> */}
 
 						{/* Quick categories */}
 						<div className="mt-5 flex flex-wrap gap-2">
