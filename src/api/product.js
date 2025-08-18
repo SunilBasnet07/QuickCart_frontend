@@ -3,13 +3,10 @@ import { apiBaseUrl } from "@/config/apiUrl";
 
 import axios from "axios";
 import api from "./api";
+import formatterParams from "@/helper/getFormatterParams";
 
 const getAllProducts = async (searchParams) => {
-let query = ""
-const {limit,sort,filters} =searchParams;
-if(limit) query = `${query==""?"": query+"&"}limit=${limit}`
-if(sort) query = `${query==""?"": query+"&"}sort=${sort}`
-if(filters) query = `${query==""?"": query+"&"}filters=${filters}`
+const query = formatterParams(searchParams);
 
 
   try {

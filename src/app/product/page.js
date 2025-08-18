@@ -12,10 +12,10 @@ export const metadata = {
 }
 
 const ProductPage = async ({ searchParams }) => {
-
+const searchParamsValue = await searchParams;
 
   try {
-    const products = await getAllProducts(searchParams);
+    const products = await getAllProducts(searchParamsValue);
 
 
     // Ensure products is an array and has items
