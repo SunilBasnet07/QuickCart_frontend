@@ -5,11 +5,15 @@ import axios from "axios";
 import api from "./api";
 
 const getAllProducts = async (searchParams) => {
-const limit = searchParams?.limit;
-const sort = searchParams?.sort;
+let query = ""
+const {limit,sort,filters} =searchParams;
+if(limit) query = `${query==""?"": query+"&"}limit=${limit}`
+if(sort) query = `${query==""?"": query+"&"}sort=${sort}`
+if(filters) query = `${query==""?"": query+"&"}filters=${filters}`
+
 
   try {
-    const response = await axios.get(`${apiBaseUrl}/api/products?limit=${limit}&sort=${sort}`);
+    const response = await axios.get(`${apiBaseUrl}/api/products?${query}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching products:', error);

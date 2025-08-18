@@ -3,7 +3,7 @@ import api from "./api";
 
 
 const getAllOrders = async () => {
-    const response = await api.get(`/api/orders?sort={createdAt:1}`);
+    const response = await api.get(`/api/orders`);
     return response?.data
 }
 const createOrder = async (data) => {

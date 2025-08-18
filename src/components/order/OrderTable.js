@@ -84,7 +84,7 @@ const OrderTable = ({ orders }) => {
                                 </td>
 
                                 <td className="px-6 py-4 text-[11px]">Rs. {item?.totalPrice}</td>
-                                <td className="px-6 py-4 ">
+                                <td className="px-6 py-4 text-[11px] ">
                                     <OrderStatus status={item?.status} />
                                 </td>
                                 <td className="px-6 py-4 text-[10px]">
