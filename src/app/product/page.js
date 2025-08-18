@@ -4,11 +4,11 @@ import SearchFilter from '@/components/product/filters/SearchFilter';
 import ProductCard from '@/components/product/ProductCard'
 
 
-// export const metadata = {
-//   title: {
-//     default: "products"
-//   }
-// }
+export const metadata = {
+  title: {
+    default: "products"
+  }
+}
 
 const ProductPage = async ({ searchParams }) => {
 const searchParamsValue = await searchParams;
