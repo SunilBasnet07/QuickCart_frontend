@@ -1,19 +1,29 @@
 'use client';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, SlidersHorizontal } from "lucide-react";
+import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getCategories } from "@/api/product";
 
 const ProductFilter = ({ isOpen, setIsOpen }) => {
     const [limitValue, setLimitValue] = useState(JSON.parse(0));
     const [orderValue, setOrderValue] = useState(JSON.stringify({createdAt:-1}));
+    const [categoryValue, setCategoryValue] = useState(null);
     const searchParams = useSearchParams();
     const router = useRouter();
     const params = new URLSearchParams(searchParams.toString());
+    const [categories, setCategories]= useState([])
+
+    useEffect(()=>{
+        getCategories().then((response)=>{
+            setCategories(response)
+        }).then((error=>console.log(error?.response?.data)))
+    },[])
 
     function handleSubmit() {
         params.set('limit', limitValue); // set limit param
-        params.set('sort', orderValue); // set limit param
+        params.set('sort', orderValue); // set sort param
+        params.set('filters', JSON.stringify({category:categoryValue})); // set category param
         router.push(`?${params.toString()}`);
         
         
@@ -23,6 +33,7 @@ const ProductFilter = ({ isOpen, setIsOpen }) => {
     
         params.delete('limit'); // remove limit param completely
         params.delete('sort');
+        params.delete('filters');
         router.push(`?${params.toString()}`);
     }
 
@@ -88,9 +99,25 @@ const ProductFilter = ({ isOpen, setIsOpen }) => {
                             </select>
                         </div>
                     </div>
+                     {/* ----Categories--- */}
+                    <div className="mb-6">
+                        <h3 className="font-Nunito-SemiBold mb-2 ">Category</h3>
+                        <div className="w-full">
+                            <select onChange={(e)=>setCategoryValue(e?.target?.value)} className="px-4 py-2 bg-slate-100 font-Nunito-SemiBold w-full border">
+                                <option value={null}>Selecte Category</option>
+                                {
+                                    categories.map((category,index)=>(
+                                        <option key={index} >{category}</option>
+                                    ))
+                                }
+                               
+                                
+                            </select>
+                        </div>
+                    </div>
 
                     {/* Rating Filter */}
-                    <div className="mb-6">
+                    {/* <div className="mb-6">
                         <h3 className="font-medium mb-2">Rating</h3>
                         <div className="space-y-2">
                             {[5, 4, 3, 2, 1].map((star) => (
@@ -100,7 +127,7 @@ const ProductFilter = ({ isOpen, setIsOpen }) => {
                                 </label>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Availability Filter */}
                     <div className="mb-6">
