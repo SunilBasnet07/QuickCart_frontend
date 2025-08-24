@@ -3,34 +3,55 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getCategories } from "@/api/product";
+import { getBrands, getCategories } from "@/api/product";
 
 const ProductFilter = ({ isOpen, setIsOpen }) => {
     const [limitValue, setLimitValue] = useState(JSON.parse(0));
-    const [orderValue, setOrderValue] = useState(JSON.stringify({createdAt:-1}));
+    const [orderValue, setOrderValue] = useState(JSON.stringify({ createdAt: -1 }));
     const [categoryValue, setCategoryValue] = useState(null);
+    const [selectedBrands, setSelectedBrands] = useState([]);
+    const [brands, setBrands] = useState(null);
     const searchParams = useSearchParams();
     const router = useRouter();
     const params = new URLSearchParams(searchParams.toString());
-    const [categories, setCategories]= useState([])
+    const [categories, setCategories] = useState([])
 
-    useEffect(()=>{
-        getCategories().then((response)=>{
-            setCategories(response)
-        }).then((error=>console.log(error?.response?.data)))
-    },[])
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const categories = await getCategories()
+                setCategories(categories)
+                const brands = await getBrands();
+                setBrands(brands);
+            
+            } catch (error) {
+                console.log(error?.response?.data)
+            }
+        }
+        fetchData()
+      
+    }, [])
 
     function handleSubmit() {
         params.set('limit', limitValue); // set limit param
         params.set('sort', orderValue); // set sort param
-        params.set('filters', JSON.stringify({category:categoryValue})); // set category param
+        params.set('filters', JSON.stringify({ category: categoryValue })); // set category param
+        params.set("filters", JSON.stringify({ brand: selectedBrands}));
         router.push(`?${params.toString()}`);
-        
-        
+
+
 
     }
+    function handleCheckbox(brand) {
+     
+        if(selectedBrands.includes(brand)){
+            setSelectedBrands(selectedBrands.filter((b)=>b !== brand))
+        }else{
+            setSelectedBrands([...selectedBrands,brand])
+        }
+    }
     function resetFilter() {
-    
+
         params.delete('limit'); // remove limit param completely
         params.delete('sort');
         params.delete('filters');
@@ -39,7 +60,7 @@ const ProductFilter = ({ isOpen, setIsOpen }) => {
 
     return (
         <>
-       
+
 
             {/* Backdrop */}
             <AnimatePresence>
@@ -91,28 +112,45 @@ const ProductFilter = ({ isOpen, setIsOpen }) => {
                     <div className="mb-6">
                         <h3 className="font-Nunito-SemiBold mb-2 ">Order By:</h3>
                         <div className="w-full">
-                            <select onChange={(e)=>setOrderValue(e?.target?.value)} className="px-4 py-2 bg-slate-100 font-Nunito-SemiBold w-full border">
-                                <option value={JSON.stringify({createdAt:-1})}>Latest</option>
-                                <option value={JSON.stringify({createdAt:1})}>Oldest</option>
-                                <option value={JSON.stringify({price:-1})}>Price: high to low</option>
-                                <option value={JSON.stringify({price:1})}>Price: low to high</option>
+                            <select onChange={(e) => setOrderValue(e?.target?.value)} className="px-4 py-2 bg-slate-100 font-Nunito-SemiBold w-full border">
+                                <option value={JSON.stringify({ createdAt: -1 })}>Latest</option>
+                                <option value={JSON.stringify({ createdAt: 1 })}>Oldest</option>
+                                <option value={JSON.stringify({ price: -1 })}>Price: high to low</option>
+                                <option value={JSON.stringify({ price: 1 })}>Price: low to high</option>
                             </select>
                         </div>
                     </div>
-                     {/* ----Categories--- */}
+                    {/* ----Categories--- */}
                     <div className="mb-6">
                         <h3 className="font-Nunito-SemiBold mb-2 ">Category</h3>
                         <div className="w-full">
-                            <select onChange={(e)=>setCategoryValue(e?.target?.value)} className="px-4 py-2 bg-slate-100 font-Nunito-SemiBold w-full border">
+                            <select onChange={(e) => setCategoryValue(e?.target?.value)} className="px-4 py-2 bg-slate-100 font-Nunito-SemiBold w-full border">
                                 <option value={null}>Selecte Category</option>
                                 {
-                                    categories.map((category,index)=>(
+                                    categories.map((category, index) => (
                                         <option key={index} >{category}</option>
                                     ))
                                 }
-                               
-                                
+
+
                             </select>
+                        </div>
+                    </div>
+                    {/* {--Slect brand---} */}
+                    <div className="mb-6">
+                        <h3 className="font-Nunito-SemiBold mb-2 ">Brand</h3>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
+                            {
+                                brands?.map((brand, index) => (
+                                    <div key={index} className="flex items-center me-4">
+                                        <input id={`brand-${index}`} onChange={() => handleCheckbox(brand)} checked={selectedBrands.includes(brand)} type="checkbox" value={brand} className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+
+                                        <label    htmlFor={`brand-${index}`} className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{brand}</label>
+                                    </div>
+                                ))
+                            }
+
                         </div>
                     </div>
 
@@ -129,14 +167,7 @@ const ProductFilter = ({ isOpen, setIsOpen }) => {
                         </div>
                     </div> */}
 
-                    {/* Availability Filter */}
-                    <div className="mb-6">
-                        <h3 className="font-medium mb-2">Availability</h3>
-                        <label className="flex items-center gap-2">
-                            <input type="checkbox" className="accent-indigo-600" />
-                            <span>In Stock</span>
-                        </label>
-                    </div>
+
 
                     {/* Apply & Reset Buttons */}
                     <div className="flex gap-3 pt-4 border-t">

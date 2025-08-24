@@ -1,3 +1,4 @@
+import formatterParams from "@/helper/getFormatterParams";
 import api from "./api";
 
 const uploadProfile = async (data) => {
@@ -12,9 +13,17 @@ const getUserById = async (id) => {
  const response = await api.get(`/api/users/${id}`);
     return response?.data
 }
-const getAllUsers = async () => {
-    const response = await api.get(`/api/users`);
+const getAllUsers = async (searchParams={}) => {
+  
+    // const query = formatterParams(searchParams);
+    
+        const query = searchParams? `filters=${searchParams}`: '';
+  
+    // const query = searchParams || {};
+    
+    const response = await api.get(`/api/users?${query}`);
     return response?.data
+
 }
 const deleteUser = async (id) => {
     const response = await api.delete(`/api/users/${id}`);

@@ -1,4 +1,5 @@
 const formatterParams = (searchParams = {}) => {
+
     const query = new URLSearchParams();
   
     if (searchParams.limit) query.set("limit", searchParams.limit);

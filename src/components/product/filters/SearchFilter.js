@@ -18,9 +18,9 @@ const SearchFilter = () => {
         }
 
     }, [value])
-    function resetSearchFilter() {
-        params.delete("filters", JSON.stringify({ name: value }));
-    }
+    // function resetSearchFilter() {
+    //     params.delete("filters", JSON.stringify({ name: value }));
+    // }
     return (
         <div className="flex-1">
             <form className="w-full">
@@ -47,8 +47,7 @@ const SearchFilter = () => {
                                       dark:border-gray-600 dark:bg-gray-700 dark:text-white 
                                       dark:placeholder-gray-400 dark:focus:border-blue-500 
                                       dark:focus:ring-blue-500"
-                            placeholder="Search products by name..."
-                            required
+                            placeholder="Search products..."
                         />
 
                     </div>

@@ -37,6 +37,15 @@ const getCategories = async () => {
     return null;
   }
 };
+const getBrands = async () => {
+  try {
+    const response = await axios.get(`${apiBaseUrl}/api/products/brands`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching brands:', error);
+    return null;
+  }
+};
 
 const addProduct = async (data) => {
   
@@ -53,4 +62,4 @@ const updateProduct = async (id,data) => {
 }
 
 
-export { getAllProducts, getProductById, addProduct, deleteProduct,updateProduct,getCategories };
+export { getAllProducts, getProductById, addProduct, deleteProduct,updateProduct,getCategories,getBrands };

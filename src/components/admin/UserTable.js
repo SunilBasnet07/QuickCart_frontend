@@ -16,6 +16,7 @@ import Modal from '../Modal';
 import clsx from 'clsx';
 import Spinner from '../Spinner';
 import CreateUserModal from './CreateUserModal';
+import UserSearch from '../user/filters/UserSearch';
 
 const UserTable = ({ getUsers }) => {
 
@@ -64,23 +65,9 @@ const UserTable = ({ getUsers }) => {
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div className="flex items-center py-3 justify-between flex-column flex-wrap md:flex-row space-y-6 md:space-y-0 pb-5 bg-white dark:bg-gray-900">
+               <UserSearch/>
 
-
-                <label htmlFor="table-search" className="sr-only">
-                    Search
-                </label>
-                <div className="relative">
-                    <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-
-                        <IoMdSearch className="w-6 h-6 text-gray-500 dark:text-gray-400" />
-                    </div>
-                    <input
-                        type="text"
-                        id="table-search-users"
-                        className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Search for users"
-                    />
-                </div>
+               
                 <button onClick={()=>setShowUserModal(true)} className='px-3 py-1 flex items-center gap-1 bg-primary-500 hover:bg-primary-600 text-white font-Nunito-SemiBold rounded-md'>
                     <Plus className='h-5 w-5' /> Create User</button>
             </div>

@@ -4,17 +4,18 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import AddToCart from './AddToCart';
 import Image from 'next/image';
-import { FaStar, FaHeart, FaEye } from 'react-icons/fa';
+import { FaStar,  FaEye } from 'react-icons/fa';
+
+import AddToWishList from './addToWishList';
 
 
 const ProductCard = ({ product }) => {
   const [isHovered, setIsHovered] = useState(null);
+
+
+
   return (
-
-   
-
-
-      <div
+ <div
 
         className="bg-white rounded-xl shadow-lg border hover:shadow-lg transition-all duration-300 overflow-hidden group"
         onMouseEnter={() => setIsHovered(product?._id)}
@@ -39,9 +40,7 @@ const ProductCard = ({ product }) => {
             className={`absolute top-2 right-2 flex flex-col space-y-1 transition-all duration-300 ${isHovered === product?._id ? 'translate-x-0 opacity-100' : 'translate-x-2 opacity-0'
               }`}
           >
-            <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-gray-700 hover:bg-blue-500 hover:text-white transition-colors duration-200 shadow">
-              <FaHeart className="text-xs" />
-            </button>
+          <AddToWishList product={product}/>
             <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-gray-700 hover:bg-blue-500 hover:text-white transition-colors duration-200 shadow">
               <FaEye className="text-xs" />
             </button>

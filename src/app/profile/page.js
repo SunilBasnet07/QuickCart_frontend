@@ -33,9 +33,12 @@ import { updatedUser } from '@/redux/auth/authSlice';
 import toast from 'react-hot-toast';
 import Spinner from '@/components/Spinner';
 import EditProfile from '@/components/profile/EditProfile';
+import Link from 'next/link';
+import { PRODUCT_ROUTE } from '@/route/route';
 
 const UserProfilePage = () => {
     const { user } = useSelector((state) => state.auth);
+    const { lists } = useSelector((state) => state.wish);
     const [activeTab, setActiveTab] = useState('profile');
     const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -203,7 +206,7 @@ const UserProfilePage = () => {
                         <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${stat.color} flex items-center justify-center mb-4`}>
                             <stat.icon className="w-6 h-6 text-white" />
                         </div>
-                        <h3 className="text-2xl font-Poppins-Bold text-gray-900 mb-1">{stat.value}</h3>
+                        <h3 className="text-2xl font-Poppins-Bold text-gray-900 mb-1">{lists?.length}</h3>
                         <p className="text-gray-600 font-Nunito text-sm">{stat.label}</p>
                     </motion.div>
                 ))}
@@ -275,17 +278,23 @@ const UserProfilePage = () => {
         <motion.div variants={itemVariants} className="space-y-6">
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                 <h3 className="text-xl font-Poppins-Bold text-gray-900 mb-6">My Wishlist</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {[1, 2, 3, 4, 5, 6].map((item) => (
-                        <div key={item} className="group cursor-pointer">
+               {
+                lists.length>0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {lists?.map((item,index) => (
+                        <div key={index} className="group cursor-pointer">
                             <div className="bg-gray-100 rounded-xl p-4 aspect-square flex items-center justify-center mb-3 group-hover:bg-gray-200 transition-colors">
-                                <Heart className="w-8 h-8 text-pink-500" />
+                                <Image src={item?.imageUrls[0]} alt='wish image' height={1000} width={1000} />
                             </div>
-                            <h4 className="font-Nunito-SemiBold text-gray-900">Product Name {item}</h4>
-                            <p className="text-sm text-gray-600">$99.99</p>
+                            <Link href={`${PRODUCT_ROUTE}/${item?.id}`} className="font-Nunito-SemiBold hover:underline text-gray-900">Product Name {item?.name.split(" ").slice(0,3).join(" ")}</Link>
+                            <p className="text-sm text-gray-600">Rs. {item?.price}</p>
                         </div>
                     ))}
                 </div>
+                ): (
+                    <span className='text-red-500 italic text-center font-Nunito-SemiBold flex justify-center mt-3'>Your wish List is empty</span>
+                )
+               }
             </div>
         </motion.div>
     );

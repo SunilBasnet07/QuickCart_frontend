@@ -35,6 +35,7 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.cart);
+  const { lists } = useSelector((state) => state.wish);
   const pathname = usePathname();
   const isActive = navlinks.some((navlink) => navlink.href === pathname);
   const router = useRouter();
@@ -91,22 +92,12 @@ const Navbar = () => {
             }
           </div>
 
-          {/* Search Bar */}
-          {/* <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
-            <div className="relative w-full group">
-              <input
-                type="text"
-                placeholder="Search for products, brands and more..."
-                className="w-full px-4 py-2.5 pl-10 text-sm text-gray-700 bg-gray-50 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all group-hover:bg-white group-hover:border-gray-300"
-              />
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-hover:text-indigo-600 transition-colors" />
-            </div>
-          </div> */}
+     
 
           {/* Desktop Right Icons */}
           <div className="hidden md:flex items-center space-x-6">
             <Link 
-              href="/favorites" 
+              href={USER_PROFILE} 
               className={`group flex flex-col items-center transition-colors relative ${
                 pathname === "/favorites" 
                   ? "text-indigo-600" 
@@ -114,6 +105,9 @@ const Navbar = () => {
               }`}
             >
               <MdFavoriteBorder className="h-6 w-6 group-hover:scale-110 transition-transform" />
+              <span className="absolute -top-3 -right-2 bg-indigo-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-Nunito-SemiBold">
+                {lists?.length || 0}
+              </span>
             </Link>
 
             <Link 
