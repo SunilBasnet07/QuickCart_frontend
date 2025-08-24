@@ -10,7 +10,7 @@ import persistStore from "redux-persist/es/persistStore";
 const persistConfig = {
   key: 'QuickCart',
   storage,
-  whitelist:['auth','cart','shipping']
+  whitelist:['auth','cart','shipping','wish']
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = configureStore({

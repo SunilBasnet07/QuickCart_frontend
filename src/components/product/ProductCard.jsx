@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import AddToCart from './AddToCart';
 import Image from 'next/image';
 import { FaStar,  FaEye } from 'react-icons/fa';
+import AddToWishList from './AddToWishList';
 
-import AddToWishList from './addToWishList';
 
 
 const ProductCard = ({ product }) => {
